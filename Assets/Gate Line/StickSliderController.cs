@@ -4,37 +4,88 @@ using UnityEngine;
 
 public class StickSliderController : MonoBehaviour
 {
-    public Transform[] _stick;
+    
+
+    [SerializeField]
+    float eulerAngX;
+    [SerializeField]
+    float eulerAngY;
+    [SerializeField]
+    float eulerAngZ;
+
+    public float _speed;
+    Vector3 touchedPos;
+
+    public handleType type;
+
+    public enum handleType { first,second}
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Touch _touch = new Touch();
+        eulerAngX = transform.localEulerAngles.x;
+        eulerAngY = transform.localEulerAngles.y;
+        eulerAngZ = transform.localEulerAngles.z;
+
         if (Input.touchCount > 0)
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+            Touch touch = Input.GetTouch(0);         
+
+            if (touch.phase == TouchPhase.Moved)
             {
-                Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-                _stick[0].Rotate(0,0,-touchedPos.y);
-                _stick[1].Rotate(0, 0, touchedPos.y);
-                // _playerObject.transform.position = Vector3.Lerp(_playerObject.transform.position, Vector2.left * -touchedPos.x, _playerMovementSpeed * Time.deltaTime);
-                // Vector2 _rangePos = _playerObject.transform.position;
-                // _rangePos.x = Mathf.Clamp(_rangePos.x, _left_right_distance.x, _left_right_distance.y);
-                // _playerObject.transform.position = _rangePos;
-                // _slider.value = touchedPos.x;
+                touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+                
+
+                if (transform.localEulerAngles.z < 230f)
+                {
+                    transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 230f);
+                }
+
+                if (transform.localEulerAngles.z > 315f)
+                {
+                    transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 315f);
+                }               
+            
             }
 
-            else
-            {
-               // _slider.gameObject.SetActive(false);
-            }
         }
 
     }
+
+    private void LateUpdate()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Moved)
+            {
+                touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+
+                if (transform.localEulerAngles.z >= 230f && transform.localEulerAngles.z <= 315f)
+                {
+                    if(type==handleType.first)
+                    {
+                        transform.Rotate(0, 0, -touchedPos.y * _speed);
+                    }
+                    else
+                    {
+                        transform.Rotate(0, 0, touchedPos.y * _speed);
+                    }
+                 
+                }
+
+            }
+
+        }
+    }
+
+
+
 }
