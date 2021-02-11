@@ -52,7 +52,8 @@ public class UIManager : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene(1);
+        StartCoroutine(LoadScene(1));
+       // SceneManager.LoadScene(1);
     }
 
     public void SoundOn()
@@ -71,24 +72,34 @@ public class UIManager : MonoBehaviour
    
     public void Restart()
     {
-        SceneManager.LoadScene(1);
+        StartCoroutine(LoadScene(1));
+        //SceneManager.LoadScene(1);
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
+        StartCoroutine(LoadScene(0));
     }
 
     public void ButtonClickSound()
     {
         if(PlayerPrefs.GetInt("Sound",0)==1)
         {
+           
             ButtonAudioSource.Play();
+           
         }
         else
         {
 
         }
+    }
+
+    IEnumerator LoadScene(int x)
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(x);
     }
 
     

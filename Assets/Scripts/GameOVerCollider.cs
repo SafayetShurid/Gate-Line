@@ -18,18 +18,21 @@ public class GameOVerCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Circle>().type == Circle.CircleType.Green)
-        {
-            Debug.Log("Game Over");
-        }
-        if (collision.gameObject.GetComponent<Circle>().type == Circle.CircleType.Orange)
-        {
-            GameManager.instance.score++;
-        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.gameObject.GetComponent<Circle>().type == Circle.CircleType.Green)
+        {
+            GameManager.instance.GameOver();
+            Debug.Log("Game Over");
+        }
+        if (collision.gameObject.GetComponent<Circle>().type == Circle.CircleType.Orange)
+        {
+            GameManager.instance.ScoreUp();
+        }
+
         Destroy(collision.gameObject);
     }
 }
