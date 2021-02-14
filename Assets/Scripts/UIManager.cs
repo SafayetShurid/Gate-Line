@@ -50,6 +50,17 @@ public class UIManager : MonoBehaviour
         
     }
 
+    private void FixedUpdate()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
+    }
+
     public void Play()
     {
         StartCoroutine(LoadScene(1));

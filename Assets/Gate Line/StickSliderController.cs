@@ -56,6 +56,15 @@ public class StickSliderController : MonoBehaviour
 
         }
 
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
+
     }
 
     private void LateUpdate()
